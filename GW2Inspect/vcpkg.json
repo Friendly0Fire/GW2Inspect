@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
-  "name": "gw2clarity",
+  "name": "gw2inspect",
   "version": "0.0.1",
   "dependencies": [
     "glm",

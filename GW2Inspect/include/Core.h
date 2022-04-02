@@ -10,7 +10,7 @@
 
 class ShaderManager;
 
-namespace GW2Clarity
+namespace GW2Inspect
 {
 
 class Core : public BaseCore, public Singleton<Core>
@@ -26,7 +26,7 @@ protected:
 
 	uint GetShaderArchiveID() const override { return IDR_SHADERS; }
 	const wchar_t* GetShaderDirectory() const override { return SHADERS_DIR; }
-	const wchar_t* GetGithubRepoSubUrl() const override { return L"Friendly0Fire/GW2Clarity"; }
+	const wchar_t* GetGithubRepoSubUrl() const override { return L"Friendly0Fire/GW2Inspect"; }
 
 	std::unique_ptr<ConfigurationOption<bool>> firstMessageShown_;
 };

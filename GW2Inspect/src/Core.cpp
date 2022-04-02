@@ -19,10 +19,10 @@
 #include <Version.h>
 #include <MiscTab.h>
 
-namespace GW2Clarity
+namespace GW2Inspect
 {
 
-class ClarityMiscTab : public ::MiscTab
+class InspectMiscTab : public ::MiscTab
 {
 public:
 	void AdditionalGUI() override
@@ -32,7 +32,7 @@ public:
 
 void Core::InnerInitPreImGui()
 {
-	ClarityMiscTab::init<ClarityMiscTab>();
+	InspectMiscTab::init<InspectMiscTab>();
 }
 
 void Core::InnerInitPostImGui()
@@ -62,17 +62,17 @@ void Core::InnerUpdate()
 void Core::InnerDraw()
 {
 	if (!firstMessageShown_->value())
-		ImGuiPopup("Welcome to GW2Clarity!").Position({ 0.5f, 0.45f }).Size({ 0.35f, 0.2f }).Display([&](const ImVec2& windowSize)
+		ImGuiPopup("Welcome to GW2Inspect!").Position({ 0.5f, 0.45f }).Size({ 0.35f, 0.2f }).Display([&](const ImVec2& windowSize)
 			{
-				ImGui::TextWrapped("Welcome to GW2Clarity! This addon provides extensive UI customization options to make it easier to parse gameplay and situations. "
+				ImGui::TextWrapped("Welcome to GW2Inspect! This addon provides extensive UI customization options to make it easier to parse gameplay and situations. "
 					"To begin, use the shortcut Shift+Alt+C to open the settings menu and take a moment to bind your keys. If you ever need further assistance, please visit "
 					"this project's website at");
 
 				ImGui::Spacing();
 				ImGui::SetCursorPosX(windowSize.x * 0.1f);
 
-				if (ImGui::Button("https://github.com/Friendly0Fire/GW2Clarity", ImVec2(windowSize.x * 0.8f, ImGui::GetFontSize() * 1.3f)))
-					ShellExecute(0, 0, L"https://github.com/Friendly0Fire/GW2Clarity", 0, 0, SW_SHOW);
+				if (ImGui::Button("https://github.com/Friendly0Fire/GW2Inspect", ImVec2(windowSize.x * 0.8f, ImGui::GetFontSize() * 1.3f)))
+					ShellExecute(0, 0, L"https://github.com/Friendly0Fire/GW2Inspect", 0, 0, SW_SHOW);
 			}, [&]() { firstMessageShown_->value(true); });
 }
 

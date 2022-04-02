@@ -1,9 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GW2Clarity", "GW2Clarity\GW2Clarity.vcxproj", "{7EFE6DCC-544A-4116-9EF2-13C0431356E6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GW2Inspect", "GW2Inspect\GW2Inspect.vcxproj", "{7EFE6DCC-544A-4116-9EF2-13C0431356E6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F0905902-017B-4EBA-BB11-02243086C993}"
 	ProjectSection(SolutionItems) = preProject
@@ -14,15 +14,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GW2Common", "GW2Clarity\common\GW2Common.vcxproj", "{1AD7929B-FE1E-4FA2-BE57-DF9B0FC1526D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GW2Common", "GW2Inspect\common\GW2Common.vcxproj", "{1AD7929B-FE1E-4FA2-BE57-DF9B0FC1526D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZipLib", "GW2Clarity\common\ziplib\Source\ZipLib\ZipLib.vcxproj", "{5C9FD859-DDF9-4510-8397-B329B0AE8C48}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZipLib", "GW2Inspect\common\ziplib\Source\ZipLib\ZipLib.vcxproj", "{5C9FD859-DDF9-4510-8397-B329B0AE8C48}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bzip2", "GW2Clarity\common\ziplib\Source\ZipLib\extlibs\bzip2\bzip2.vcxproj", "{DBBF348D-C221-4F2E-8A0D-24EFA0D98E71}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bzip2", "GW2Inspect\common\ziplib\Source\ZipLib\extlibs\bzip2\bzip2.vcxproj", "{DBBF348D-C221-4F2E-8A0D-24EFA0D98E71}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lzma", "GW2Clarity\common\ziplib\Source\ZipLib\extlibs\lzma\lzma.vcxproj", "{7EAD1358-3E72-4FB6-A212-25D462B5C1E9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lzma", "GW2Inspect\common\ziplib\Source\ZipLib\extlibs\lzma\lzma.vcxproj", "{7EAD1358-3E72-4FB6-A212-25D462B5C1E9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "GW2Clarity\common\ziplib\Source\ZipLib\extlibs\zlib\zlib.vcxproj", "{BAEB16B3-DB4C-432F-9E6A-2ACADEA0691D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "GW2Inspect\common\ziplib\Source\ZipLib\extlibs\zlib\zlib.vcxproj", "{BAEB16B3-DB4C-432F-9E6A-2ACADEA0691D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Zip", "Zip", "{88C0C950-DD9D-459F-8D19-E191C6CE9B90}"
 EndProject

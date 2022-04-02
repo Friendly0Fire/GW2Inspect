@@ -14,9 +14,9 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{7EFE6DCC-544A-4116-9EF2-13C0431356E6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>GW2Clarity</RootNamespace>
+    <RootNamespace>GW2Inspect</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>GW2Clarity</ProjectName>
+    <ProjectName>GW2Inspect</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -49,14 +49,14 @@
     <IncludePath>$(ProjectDir)include\;$(ProjectDir);$(ProjectDir)common\ZipLib\Source\ZipLib;$(ProjectDir)common\include;$(ProjectDir)common\imgui;$(ProjectDir)common\d3d9_wrapper\include;$(ProjectDir)common\loader-core\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)src\;$(SourcePath)</SourcePath>
-    <TargetName>gw2addon_gw2clarity</TargetName>
+    <TargetName>gw2addon_gw2inspect</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)include\;$(ProjectDir);$(ProjectDir)common\ZipLib\Source\ZipLib;$(ProjectDir)common\include;$(ProjectDir)common\imgui;$(ProjectDir)common\d3d9_wrapper\include;$(ProjectDir)common\loader-core\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)src\;$(SourcePath)</SourcePath>
-    <TargetName>gw2addon_gw2clarity</TargetName>
+    <TargetName>gw2addon_gw2inspect</TargetName>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgEnableManifest>true</VcpkgEnableManifest>
@@ -73,7 +73,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>IMGUI_USER_CONFIG=&lt;imcfg.h&gt;;D3D_DEBUG_INFO;_DEBUG;GW2Clarity_EXPORTS;_WINDOWS;_USRDLL;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;SHADERS_DIR=LR"sd($(ProjectDir)shaders\)sd";_WIN32_WINNT=0x0600;$(GitHubDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>IMGUI_USER_CONFIG=&lt;imcfg.h&gt;;D3D_DEBUG_INFO;_DEBUG;GW2Inspect_EXPORTS;_WINDOWS;_USRDLL;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;SHADERS_DIR=LR"sd($(ProjectDir)shaders\)sd";_WIN32_WINNT=0x0600;$(GitHubDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -86,11 +86,11 @@
       <AdditionalDependencies>Wininet.lib;Shlwapi.lib;d3dcompiler.lib;WindowsCodecs.lib;$(ProjectDir)common\$(Platform)\$(Configuration)\BaseResource.res;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>if exist "$(GW2CLARITY_TARGET_DIR)" (
-  echo f | xcopy /F /Y $(TargetPath) "$(GW2CLARITY_TARGET_DIR)\addons\gw2clarity\gw2addon_gw2clarity.dll"
-  echo f | xcopy /F /Y $(OutDir)$(TargetName).pdb "$(GW2CLARITY_TARGET_DIR)\addons\gw2clarity\gw2addon_gw2clarity.pdb"
+      <Command>if exist "$(GW2INSPECT_TARGET_DIR)" (
+  echo f | xcopy /F /Y $(TargetPath) "$(GW2INSPECT_TARGET_DIR)\addons\gw2inspect\gw2addon_gw2inspect.dll"
+  echo f | xcopy /F /Y $(OutDir)$(TargetName).pdb "$(GW2INSPECT_TARGET_DIR)\addons\gw2inspect\gw2addon_gw2inspect.pdb"
 ) else (
-  echo No target defined, skipping copy. To setup automatic copy, define environment variable GW2CLARITY_TARGET_DIR to your GW2 root install directory.
+  echo No target defined, skipping copy. To setup automatic copy, define environment variable GW2INSPECT_TARGET_DIR to your GW2 root install directory.
 )</Command>
     </PostBuildEvent>
     <FxCompile>
@@ -115,7 +115,7 @@ git describe --always --dirty --match "NOT A TAG" &gt;&gt; "$(ProjectDir)include
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>IMGUI_USER_CONFIG=&lt;imcfg.h&gt;;IMGUI_USER_CONFIG=&lt;imcfg.h&gt;;NDEBUG;GW2Clarity_EXPORTS;_WINDOWS;_USRDLL;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;SHADERS_DIR=LR"sd($(ProjectDir)shaders\)sd";_WIN32_WINNT=0x0600;$(GitHubDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>IMGUI_USER_CONFIG=&lt;imcfg.h&gt;;IMGUI_USER_CONFIG=&lt;imcfg.h&gt;;NDEBUG;GW2Inspect_EXPORTS;_WINDOWS;_USRDLL;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;SHADERS_DIR=LR"sd($(ProjectDir)shaders\)sd";_WIN32_WINNT=0x0600;$(GitHubDefs);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -130,11 +130,11 @@ git describe --always --dirty --match "NOT A TAG" &gt;&gt; "$(ProjectDir)include
       <AdditionalDependencies>Wininet.lib;Shlwapi.lib;d3dcompiler.lib;WindowsCodecs.lib;$(ProjectDir)common\$(Platform)\$(Configuration)\BaseResource.res;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>if exist "$(GW2CLARITY_TARGET_DIR)" (
-  copy /Y $(TargetPath) "$(GW2CLARITY_TARGET_DIR)\addons\gw2clarity\gw2addon_gw2clarity.dll"
-  copy /Y $(OutDir)$(TargetName).pdb "$(GW2CLARITY_TARGET_DIR)\addons\gw2clarity\gw2addon_gw2clarity.pdb"
+      <Command>if exist "$(GW2INSPECT_TARGET_DIR)" (
+  copy /Y $(TargetPath) "$(GW2INSPECT_TARGET_DIR)\addons\gw2inspect\gw2addon_gw2inspect.dll"
+  copy /Y $(OutDir)$(TargetName).pdb "$(GW2INSPECT_TARGET_DIR)\addons\gw2inspect\gw2addon_gw2inspect.pdb"
 ) else (
-  echo No target defined, skipping copy. To setup automatic copy, define environment variable GW2CLARITY_TARGET_DIR to your GW2 root install directory.
+  echo No target defined, skipping copy. To setup automatic copy, define environment variable GW2INSPECT_TARGET_DIR to your GW2 root install directory.
 )</Command>
     </PostBuildEvent>
     <FxCompile>
