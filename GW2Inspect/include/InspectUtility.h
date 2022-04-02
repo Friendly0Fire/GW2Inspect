@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Win.h>
+#include <Common.h>
 #include <d3d11.h>
 
 template<typename F>
@@ -173,4 +173,21 @@ inline const char* FormatToString(DXGI_FORMAT fmt)
     case DXGI_FORMAT_V208: return "V208";
     case DXGI_FORMAT_V408: return "V408";
     }
+}
+
+ImVec2 AdjustToArea(uint w, uint h, uint availW)
+{
+    ImVec2 dims(w, h);
+    if (dims.x < dims.y)
+        dims.x = dims.y * w / h;
+    else if (dims.x > dims.y)
+        dims.y = dims.x * h / w;
+
+    if (availW < dims.x)
+    {
+        dims.y *= availW / dims.x;
+        dims.x = availW;
+    }
+
+    return dims;
 }

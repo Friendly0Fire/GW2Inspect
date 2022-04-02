@@ -19,7 +19,17 @@ class Core : public BaseCore, public Singleton<Core>
 {
 public:
 	Core();
+
+	void AddTexture(ID3D11Texture2D* tex, const D3D11_TEXTURE2D_DESC* desc = nullptr);
+	void AddSRV(ComPtr<ID3D11Texture2D> tex, ID3D11ShaderResourceView* srv);
 protected:
+	struct LoadedTexture
+	{
+		ComPtr<ID3D11Texture2D> tex;
+		D3D11_TEXTURE2D_DESC desc;
+		ComPtr<ID3D11ShaderResourceView> srv;
+	};
+
 	void InnerDraw() override;
 	void InnerUpdate() override;
 	void InnerInitPreImGui() override;
@@ -30,6 +40,8 @@ protected:
 	uint GetShaderArchiveID() const override { return IDR_SHADERS; }
 	const wchar_t* GetShaderDirectory() const override { return SHADERS_DIR; }
 	const wchar_t* GetGithubRepoSubUrl() const override { return L"Friendly0Fire/GW2Inspect"; }
+
+	void ShowSaveButton(LoadedTexture& t);
 
 	bool onlyBC_ = true;
 	bool filterIndependentDims_ = false;
@@ -43,5 +55,12 @@ protected:
 	ImGui::FileBrowser saveDDSDialog_;
 
 	ComPtr<ID3D11Texture2D> savingTexture_;
+
+	uint createCalls_ = 0;
+	uint srvCalls_ = 0;
+
+	std::vector<LoadedTexture> loadedTextures_;
+
+	std::vector<LoadedTexture> displayedTextures_;
 };
 }

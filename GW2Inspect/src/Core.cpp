@@ -42,18 +42,6 @@ void Core::InnerInitPreImGui()
 	InspectMiscTab::init<InspectMiscTab>();
 }
 
-uint createCalls = 0;
-uint srvCalls = 0;
-
-struct LoadedTexture
-{
-	ComPtr<ID3D11Texture2D> tex;
-	D3D11_TEXTURE2D_DESC desc;
-	ComPtr<ID3D11ShaderResourceView> srv;
-};
-
-std::vector<LoadedTexture> loadedTextures;
-
 decltype(ID3D11DeviceVtbl::CreateTexture2D) orig_CreateTexture2D;
 HRESULT __stdcall HookedCreateTexture2D(
 	ID3D11Device* This,
@@ -62,13 +50,10 @@ HRESULT __stdcall HookedCreateTexture2D(
 	ID3D11Texture2D** ppTexture2D
 )
 {
-	createCalls++;
+	auto& c = Core::i();
 	auto hr = orig_CreateTexture2D(This, pDesc, pInitialData, ppTexture2D);
 	if (SUCCEEDED(hr))
-	{
-		LoadedTexture lt{ *ppTexture2D, *pDesc };
-		loadedTextures.push_back(std::move(lt));
-	}
+		Core::i().AddTexture(*ppTexture2D, pDesc);
 	return hr;
 }
 
@@ -80,17 +65,12 @@ HRESULT __stdcall HookedCreateShaderResourceView(
 	ID3D11ShaderResourceView** ppSRView
 )
 {
-	srvCalls++;
 	auto hr = orig_CreateShaderResourceView(This, pResource, pDesc, ppSRView);
 	if (SUCCEEDED(hr))
 	{
 		ComPtr<ID3D11Texture2D> tex2D;
 		if (pResource && SUCCEEDED(pResource->QueryInterface(tex2D.GetAddressOf())))
-		{
-			auto it = std::ranges::find_if(loadedTextures, [&](auto& lt) { return lt.tex == tex2D; });
-			if (it != loadedTextures.end())
-				it->srv = *ppSRView;
-		}
+			Core::i().AddSRV(tex2D, *ppSRView);
 	}
 
 	return hr;
@@ -123,6 +103,38 @@ void Core::InnerShutdown()
 	CoUninitialize();
 }
 
+void Core::ShowSaveButton(LoadedTexture& t)
+{
+	if (ImGui::Button(std::format("Save##{}", (void*)t.tex.Get()).c_str()))
+	{
+		savingTexture_ = t.tex;
+		auto n = std::format("{}.dds", (void*)t.tex.Get());
+		saveDDSDialog_.Open();
+		saveDDSDialog_.SetInputName(n);
+	}
+}
+
+void Core::AddTexture(ID3D11Texture2D* tex, const D3D11_TEXTURE2D_DESC* desc)
+{
+	createCalls_++;
+
+	LoadedTexture lt{ tex };
+	if (desc)
+		lt.desc = *desc;
+	else
+		tex->GetDesc(&lt.desc);
+	loadedTextures_.push_back(std::move(lt));
+}
+
+void Core::AddSRV(ComPtr<ID3D11Texture2D> tex, ID3D11ShaderResourceView* srv)
+{
+	srvCalls_++;
+
+	auto it = std::ranges::find_if(loadedTextures_, [&](auto& lt) { return lt.tex == tex; });
+	if (it != loadedTextures_.end())
+		it->srv = srv;
+}
+
 void Core::InnerUpdate()
 {
 }
@@ -144,10 +156,35 @@ void Core::InnerDraw()
 		savingTexture_.Reset();
 	}
 
+	for (auto it = displayedTextures_.begin(); it != displayedTextures_.end();)
+	{
+		auto& t = *it;
+		bool isOpen = true;
+		ImGui::SetNextWindowSizeConstraints(ImVec2(256, 256), ImVec2(t.desc.Width * 4, t.desc.Height * 4));
+		if (ImGui::Begin(std::format("View {}", (void*)t.tex.Get()).c_str(), &isOpen))
+		{
+			ImGui::Text("%ux%u (%u)", t.desc.Width, t.desc.Height, t.desc.MipLevels);
+			ImGui::SameLine();
+			ImGui::Text(FormatToString(t.desc.Format));
+			ImGui::SameLine();
+			ShowSaveButton(t);
+
+			ImVec2 dims = AdjustToArea(t.desc.Width * 4, t.desc.Height * 4, ImGuiGetWindowContentRegionWidth());
+
+			ImGui::Image(t.srv.Get(), dims);
+		}
+		ImGui::End();
+
+		if (!isOpen)
+			it = displayedTextures_.erase(it);
+		else
+			it++;
+	}
+
 	if (ImGui::Begin("Loaded Textures"))
 	{
-		ImGui::Text("Found %u textures.", createCalls);
-		ImGui::Text("Found %u SRVs.", srvCalls);
+		ImGui::Text("Found %u textures.", createCalls_);
+		ImGui::Text("Found %u SRVs.", srvCalls_);
 
 		ImGui::Separator();
 		ImGuiTitle("Filter Settings");
@@ -170,7 +207,7 @@ void Core::InnerDraw()
 
 		ImGui::Checkbox("Only BC Formats", &onlyBC_);
 
-		auto filtered = loadedTextures | std::views::filter([&](auto& lt) {
+		auto filtered = loadedTextures_ | std::views::filter([&](auto& lt) {
 			if (!lt.srv)
 				return false;
 			if (onlyBC_ && !IsBCFormat(lt.desc.Format))
@@ -200,17 +237,7 @@ void Core::InnerDraw()
 					ImGui::TableSetColumnIndex(0);
 					lastAvailableWidth_ = ImGui::GetContentRegionMax().x;
 
-					ImVec2 dims(t.desc.Width, t.desc.Height);
-					if (dims.x < dims.y)
-						dims.x = dims.y * t.desc.Width / t.desc.Height;
-					else if (dims.x > dims.y)
-						dims.y = dims.x * t.desc.Height / t.desc.Width;
-
-					if (lastAvailableWidth_ < dims.x)
-					{
-						dims.y *= lastAvailableWidth_ / dims.x;
-						dims.x = lastAvailableWidth_;
-					}
+					ImVec2 dims = AdjustToArea(t.desc.Width, t.desc.Height, lastAvailableWidth_);
 
 					ImGui::Image(t.srv.Get(), dims);
 
@@ -223,12 +250,15 @@ void Core::InnerDraw()
 					ImGui::Text("%ux%u (%u)", t.desc.Width, t.desc.Height, t.desc.MipLevels);
 					ImGui::Text(FormatToString(t.desc.Format));
 					ImGui::Spacing();
-					if (ImGui::Button(std::format("Save##{}", (void*)t.tex.Get()).c_str()))
+					ShowSaveButton(t);
+					ImGui::SameLine();
+					if (ImGui::Button(std::format("View##{}", (void*)t.tex.Get()).c_str()))
 					{
-						savingTexture_ = t.tex;
-						auto n = std::format("{}.dds", (void*)t.tex.Get());
-						saveDDSDialog_.Open();
-						saveDDSDialog_.SetInputName(n);
+						auto it = std::ranges::find_if(displayedTextures_, [&](auto& t2) { return t2.tex == t.tex; });
+						if (it != displayedTextures_.end())
+							ImGui::SetWindowFocus(std::format("View {}", (void*)t.tex.Get()).c_str());
+						else
+							displayedTextures_.push_back(t);
 					}
 				}
 			}
