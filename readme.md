@@ -1,3 +1,3 @@
-# GW2 Clarity
+# GW2 Inspect
 
-[![GitHub all releases](https://img.shields.io/github/downloads/Friendly0Fire/GW2Clarity/total)](https://github.com/Friendly0Fire/GW2Clarity/releases/latest) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Friendly0Fire/GW2Clarity/CI)](https://github.com/Friendly0Fire/GW2Clarity/actions/workflows/main.yml) [![Discord](https://img.shields.io/discord/384735285197537290?label=Discord)](https://discord.gg/zqeHCEg)
+[![GitHub all releases](https://img.shields.io/github/downloads/Friendly0Fire/GW2Inspect/total)](https://github.com/Friendly0Fire/GW2Inspect/releases/latest) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Friendly0Fire/GW2Inspect/CI)](https://github.com/Friendly0Fire/GW2Inspect/actions/workflows/main.yml) [![Discord](https://img.shields.io/discord/384735285197537290?label=Discord)](https://discord.gg/zqeHCEg)
