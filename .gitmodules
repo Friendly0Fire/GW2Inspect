@@ -1,3 +1,6 @@
 [submodule "GW2Inspect/common"]
 	path = GW2Inspect/common
 	url = git@github.com:Friendly0Fire/GW2Common.git
+[submodule "GW2Inspect/imgui-filebrowser"]
+	path = GW2Inspect/imgui-filebrowser
+	url = https://github.com/AirGuanZ/imgui-filebrowser.git

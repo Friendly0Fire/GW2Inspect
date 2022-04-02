@@ -39,6 +39,18 @@
     <ClInclude Include="include\Version.h">
       <Filter>Source Files\Versioning</Filter>
     </ClInclude>
+    <ClInclude Include="include\VTables.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Texture2D.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InspectUtility.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui-filebrowser\imfilebrowser.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="rt_rcdat.bin">

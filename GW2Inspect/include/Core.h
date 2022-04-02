@@ -7,6 +7,8 @@
 #include <dxgi.h>
 #include <Direct3D11Loader.h>
 #include <ConfigurationOption.h>
+#include <imgui.h>
+#include <imfilebrowser.h>
 
 class ShaderManager;
 
@@ -16,6 +18,7 @@ namespace GW2Inspect
 class Core : public BaseCore, public Singleton<Core>
 {
 public:
+	Core();
 protected:
 	void InnerDraw() override;
 	void InnerUpdate() override;
@@ -28,6 +31,17 @@ protected:
 	const wchar_t* GetShaderDirectory() const override { return SHADERS_DIR; }
 	const wchar_t* GetGithubRepoSubUrl() const override { return L"Friendly0Fire/GW2Inspect"; }
 
-	std::unique_ptr<ConfigurationOption<bool>> firstMessageShown_;
+	bool onlyBC_ = true;
+	bool filterIndependentDims_ = false;
+	int filterMinWidth_ = 0;
+	int filterMinHeight_ = 0;
+	int filterMaxWidth_ = 8192;
+	int filterMaxHeight_ = 8192;
+
+	int lastAvailableWidth_ = 0;
+
+	ImGui::FileBrowser saveDDSDialog_;
+
+	ComPtr<ID3D11Texture2D> savingTexture_;
 };
 }
