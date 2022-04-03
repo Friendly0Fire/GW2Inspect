@@ -21,13 +21,17 @@ public:
 	Core();
 
 	void AddTexture(ID3D11Texture2D* tex, const D3D11_TEXTURE2D_DESC* desc = nullptr);
-	void AddSRV(ComPtr<ID3D11Texture2D> tex, ID3D11ShaderResourceView* srv);
+	void AddSRV(ComPtr<ID3D11Texture2D>& tex, ID3D11ShaderResourceView* srv);
+	void CopyToTexture(ComPtr<ID3D11Texture2D>& tex, const void* data, uint w, uint h, uint rowPitch);
 protected:
 	struct LoadedTexture
 	{
 		ComPtr<ID3D11Texture2D> tex;
 		D3D11_TEXTURE2D_DESC desc;
 		ComPtr<ID3D11ShaderResourceView> srv;
+		bool wasCopiedTo = false;
+		uint64_t hash = 0;
+		std::vector<uint8_t> data;
 	};
 
 	void InnerDraw() override;
@@ -43,6 +47,7 @@ protected:
 
 	void ShowSaveButton(LoadedTexture& t);
 
+	bool onlyWrittenTo_ = true;
 	bool onlyBC_ = true;
 	bool filterIndependentDims_ = false;
 	int filterMinWidth_ = 0;
@@ -55,9 +60,6 @@ protected:
 	ImGui::FileBrowser saveDDSDialog_;
 
 	ComPtr<ID3D11Texture2D> savingTexture_;
-
-	uint createCalls_ = 0;
-	uint srvCalls_ = 0;
 
 	std::vector<LoadedTexture> loadedTextures_;
 
